@@ -10,6 +10,4 @@ const Zermatt = {
     String: String,
     Url: Url
 }
-
-window.Zermatt = window.Zermatt || Zermatt
 export default Zermatt
