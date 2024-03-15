@@ -7,9 +7,12 @@ import String from './string'
 import Url from './url'
 
 const Zermatt = {
+    ...window.Zermatt,
+    
     Module: Module,
     Money: Money,
     String: String,
     Url: Url
 }
+
 export default Zermatt
