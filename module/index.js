@@ -4,23 +4,27 @@
 
 let zermattConfig = {}
 
-async function loadModule(configModule) {
-    let importModule = await import(configModule.path)
-    const rewrite = zermattConfig.rewrites.find(rewrite => rewrite.name === configModule.name)
+async function rewrite(module, configModule) {
+    const rewrite = zermattConfig.rewrites?.find(rewrite => rewrite.name === configModule.name)
     if (rewrite) {
         const importRewrite = await import(rewrite.path)
-        const moduleDefault = importModule.default
-        const rewriteDefault = importRewrite.default
-        importModule = {
+        return {
             default: {
-                ...moduleDefault,
-                ...rewriteDefault
+                ...(module.default),
+                ...(importRewrite.default)
             }
         }
+    } else {
+        return module
     }
+}
+
+async function loadModule(configModule) {
+    let module = await import(configModule.path)
+    module = await rewrite(module, configModule)
     return {
         name: configModule.name,
-        default: importModule.default
+        default: module.default
     }
 }
 
