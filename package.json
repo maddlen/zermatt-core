@@ -1,6 +1,6 @@
 {
   "name": "@maddlen/zermatt-core",
-  "version": "1.0.1",
+  "version": "1.0.0",
   "description": "Zermatt utils.",
   "main": "index.js",
   "scripts": {
