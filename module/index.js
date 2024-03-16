@@ -2,6 +2,7 @@
  * @author Hervé Guétin <www.linkedin.com/in/herveguetin>
  */
 import Alpine from 'alpinejs'
+import Event from './../event'
 
 let zermattConfig = {}
 
@@ -37,12 +38,10 @@ function loadModules(config) {
 }
 
 function init(config) {
-    window.Alpine = Alpine
     loadModules(config).then(() => {
-        document.dispatchEvent(new CustomEvent('zermatt:init'))
-        Alpine.start()
+        Event.dispatch('zermatt:module:init')
     }).catch(error => {
-        console.error('An error occurred:', error)
+        console.error('Error while loading modules:', error)
     })
 }
 
