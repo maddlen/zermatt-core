@@ -2,11 +2,23 @@
  * @author Hervé Guétin <www.linkedin.com/in/herveguetin>
  */
 import Event from './../event'
-const init = function() {
-    console.log('init translation')
-    Event.dispatch('zermatt:translation:init')
+
+dict = {}
+
+const init = function () {
+    fetch(Zermatt.Variables.translationUrl).then(res => res.json()).then(json => {
+        dict = json
+        Event.dispatch('zermatt:translation:init')
+    })
 }
 
+const translate = function (message) {
+    return dict[message]
+}
+
+$t = window.$t = translate
+
 export default {
-    init: init
-} 
+    init: init,
+    translate: translate
+}
