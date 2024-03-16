@@ -9,6 +9,7 @@ import Url from './url'
 const Zermatt = {
     ...window.Zermatt,
     
+    init: Module.init,
     Module: Module,
     Money: Money,
     String: String,

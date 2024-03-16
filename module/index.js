@@ -1,6 +1,7 @@
 /**
  * @author Hervé Guétin <www.linkedin.com/in/herveguetin>
  */
+import Alpine from 'alpinejs'
 
 let zermattConfig = {}
 
@@ -22,6 +23,7 @@ async function rewrite(module, configModule) {
 async function loadModule(configModule) {
     let module = await import(configModule.path)
     module = await rewrite(module, configModule)
+    Alpine.data(configModule.name, () => module.default)
     return {
         name: configModule.name,
         default: module.default
@@ -34,7 +36,17 @@ function loadModules(config) {
     return Promise.all(promises)
 }
 
+function init(config) {
+    window.Alpine = Alpine
+    loadModules(config).then(() => {
+        document.dispatchEvent(new CustomEvent('zermatt:init'))
+        Alpine.start()
+    }).catch(error => {
+        console.error('An error occurred:', error)
+    })
+}
+
 export default {
-    loadAll: loadModules
+    init: init
 }
 
