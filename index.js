@@ -15,4 +15,6 @@ const Zermatt = {
     Url: Url
 }
 
+window.Zermatt = Zermatt
+
 export default Zermatt
