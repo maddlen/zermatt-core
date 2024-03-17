@@ -1,6 +1,6 @@
 {
   "name": "@maddlen/zermatt-core",
-  "version": "1.2.3",
+  "version": "1.2.4",
   "description": "Zermatt utils.",
   "main": "index.js",
   "scripts": {
@@ -21,6 +21,7 @@
   },
   "homepage": "https://github.com/maddlen/zermatt-core#readme",
   "dependencies": {
-    "alpinejs": "^3.13.7"
+    "alpinejs": "^3.13.7",
+    "i18next": "^23.10.1"
   }
 }

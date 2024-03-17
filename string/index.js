@@ -1,6 +1,8 @@
 /**
  * @author Hervé Guétin <www.linkedin.com/in/herveguetin>
  */
+import Translation from './translation'
+
 export default {
     sprintf(format) {
         const args = Array.prototype.slice.call(arguments, 1)
@@ -8,5 +10,7 @@ export default {
         return format.replace(/%s/g, function () {
             return args[i++]
         })
-    }
+    },
+    
+    translate: Translation.translate
 }
