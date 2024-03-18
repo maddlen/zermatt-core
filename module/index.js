@@ -9,7 +9,7 @@ let zermattConfig = {}
 async function rewrite(module, configModule) {
     const rewrite = zermattConfig.rewrites?.find(rewrite => rewrite.name === configModule.name)
     if (rewrite) {
-        const importRewrite = await import(rewrite.path)
+        const importRewrite = await import(Zermatt.Variables.viewUrl + rewrite.path + '.js')
         return {
             default: {
                 ...(module.default),
@@ -22,7 +22,7 @@ async function rewrite(module, configModule) {
 }
 
 async function loadModule(configModule) {
-    let module = await import(configModule.path)
+    let module = await import(Zermatt.Variables.viewUrl + configModule.path + '.js')
     module = await rewrite(module, configModule)
     Alpine.data(configModule.name, () => module.default)
     return {
@@ -33,7 +33,10 @@ async function loadModule(configModule) {
 
 function loadModules(config) {
     zermattConfig = config
-    const promises = zermattConfig.modules.map(configModule => loadModule(configModule))
+    const promises = zermattConfig.modules.map(configModule => {
+        const matchingDomElement = document.querySelector(['[x-data="' + configModule.name + '"]'])
+        return matchingDomElement ? loadModule(configModule) : null
+    })
     return Promise.all(promises)
 }
 
