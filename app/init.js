@@ -6,6 +6,10 @@ import Module from './../module'
 import Translation from './../string/translation'
 import Alpine from "alpinejs"
 import Precognition from "laravel-precognition-alpine"
+import { client } from 'laravel-precognition-alpine';
+
+// For Magento to parse JSON payload to the request params. Otherwide $request->getParams() is empty.
+client.axios().defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
 let config = {}
 

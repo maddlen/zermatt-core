@@ -16,7 +16,9 @@ const EventGroup = class {
     }
 
     onEvent(event) {
-        this.completedEvents.push(event)
+        if (!this.completedEvents.includes(event)) {
+            this.completedEvents.push(event)
+        }
         this.isComplete()
     }
 
