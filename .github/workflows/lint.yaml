@@ -13,4 +13,5 @@ jobs:
       - run: npm install
       - run: npm run lint
       - run: npx prettier . --write
+      - run: rm -rf package-lock.json
       - uses: stefanzweifel/git-auto-commit-action@v5
