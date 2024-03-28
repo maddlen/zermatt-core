@@ -1,10 +1,11 @@
 {
   "name": "@maddlen/zermatt-core",
-  "version": "1.2.8",
+  "version": "1.2.9",
   "description": "Zermatt utils.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint . --ext .js"
   },
   "author": "",
   "license": "MIT",
@@ -20,6 +21,12 @@
     "url": "https://github.com/maddlen/zermatt-core/issues"
   },
   "homepage": "https://github.com/maddlen/zermatt-core#readme",
+  "devDependencies": {
+    "eslint": "^8.57.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-import": "^2.29.1",
+    "prettier": "^3.2.5"
+  },
   "dependencies": {
     "alpinejs": "^3.13.7",
     "i18next": "^23.10.1"
