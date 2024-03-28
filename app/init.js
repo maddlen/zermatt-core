@@ -4,9 +4,8 @@
 import Event from './../event'
 import Module from './../module'
 import Translation from './../string/translation'
-import Alpine from "alpinejs"
-import Precognition from "laravel-precognition-alpine"
-import { client } from 'laravel-precognition-alpine';
+import {Alpine} from "alpinejs"
+import Precognition, { client } from "laravel-precognition-alpine"
 
 // For Magento to parse JSON payload to the request params. Otherwide $request->getParams() is empty.
 client.axios().defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
@@ -24,6 +23,7 @@ const listen = function () {
 
 const init = function (Config) {
     config = Config
+    // eslint-disable-next-line no-undef
     window.Alpine = Alpine
     Alpine.plugin(Precognition)
     listen()

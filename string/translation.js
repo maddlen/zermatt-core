@@ -7,7 +7,7 @@ import i18next from 'i18next'
 let dict = {}
 
 const interpolate = function () {
-    for (var key in dict) {
+    for (let key in dict) {
         if (Object.prototype.hasOwnProperty.call(dict, key)) {
             dict[key] = dict[key].replace(/%(\d+)/g, '{{$1}}')
         }
@@ -41,9 +41,10 @@ const translate = function (message, ...vars) {
     return i18next.t(message, args);
 }
 
+let $t
 $t = window.$t = translate
 
 export default {
     init: init,
-    translate: translate
+    translate: $t
 }

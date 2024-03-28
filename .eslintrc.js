@@ -17,9 +17,16 @@ module.exports = {
             }
         }
     },
-    "parserOptions": {
+    parserOptions: {
         "ecmaVersion": "latest",
         "sourceType": "module"
+    },
+    env: {
+        "browser": true
+    },
+    globals: {
+        "Promise": true,
+        "Zermatt": true
     },
     rules: {
         // Add your own rules here to override ones from the extended configs.
