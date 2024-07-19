@@ -6,7 +6,7 @@ import { pageHasModule } from 'zermatt-core/module'
  */
 export default {
     fetch: async function () {
-        if (!pageHasModule('form')) return true
+        if (!pageHasModule('Zermatt_Form')) return true
 
         const response = await fetch(Zermatt.Variables.formKeyUrl, { method: 'POST' })
         const json = await response.json()
