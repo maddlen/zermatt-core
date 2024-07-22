@@ -27,6 +27,7 @@ const listen = function () {
     Event.on(['zermatt:translation:init', 'zermatt:module:init'], () => {
         Event.dispatch('zermatt:init')
         Alpine.start()
+        Event.dispatch('zermatt:ready')
     })
 }
 
