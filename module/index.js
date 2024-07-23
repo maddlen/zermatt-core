@@ -45,7 +45,17 @@ function init(config) {
 }
 
 export function pageHasModule(moduleName) {
-    return document.querySelector(['[x-data^="Zermatt.Module(\'' + moduleName])
+    let hasModule = false
+
+    if ((document.documentElement.textContent || document.documentElement.innerText).indexOf('Zermatt.Module(\'') > -1) {
+        hasModule = true
+    }
+    
+    if (document.querySelector(['[x-data^="Zermatt.Module(\'' + moduleName])) {
+        hasModule = true
+    }
+    
+    return hasModule
 }
 
 export default {
