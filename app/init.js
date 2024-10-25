@@ -19,12 +19,12 @@ client.axios().defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 let config = {}
 
 const listen = function () {
-    Event.once('zermatt:kickoff', () => {
+    Event.waitOnce('zermatt:kickoff', () => {
         Translation.init()
         FormKey.fetch()
     })
-    Event.once('zermatt:translation:init', () => Module.init(config))
-    Event.once(['zermatt:translation:init', 'zermatt:module:init'], () => {
+    Event.waitOnce('zermatt:translation:init', () => Module.init(config))
+    Event.waitOnce(['zermatt:translation:init', 'zermatt:module:init'], () => {
         Event.dispatch('zermatt:init')
         Alpine.start()
         Event.dispatch('zermatt:ready')

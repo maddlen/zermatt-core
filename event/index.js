@@ -1,52 +1,87 @@
-/**
- * @author Hervé Guétin <www.linkedin.com/in/herveguetin>
- */
-const EventGroup = class {
+const Modes = Object.freeze({
+  ON: "on",
+  ONCE: "once",
+  WAITON: "waitOn",
+  WAITONCE: "waitOnce",
+});
 
-    constructor(events, always, callback) {
-        this.completedEvents = []
-        this.events = events
-        this.callback = callback
-        this.always = always
+const Subscriber = class {
+  constructor(events, mode, callback) {
+    this.completedEvents = new Set();
+    this.events = events;
+    this.callback = callback;
+    this.mode = mode;
 
-        this.listen()
-    }
+    this.boundEventHandler = this.onEvent.bind(this);
+    this.listen();
+  }
 
-    listen() {
-        this.events.map(event => document.addEventListener(event, this.onEvent.bind(this)))
-    }
+  listen() {
+    this.events.forEach((event) => document.addEventListener(event, this.boundEventHandler));
+  }
 
-    onEvent(event) {
-        if (!this.completedEvents.includes(event)) {
-            this.completedEvents.push(event)
+  onEvent(domEvent) {
+    this.completedEvents.add(domEvent);
+    this.isComplete();
+  }
+
+  removeEventListeners(events) {
+    events.forEach((event) => document.removeEventListener(event, this.boundEventHandler));
+  }
+
+  isComplete() {
+    const completedEvents = Array.from(this.completedEvents);
+    const allEventsCompleted = this.events.length === completedEvents.length;
+
+    let callbackResult;
+    switch (this.mode) {
+      case Modes.ONCE:
+        this.removeEventListeners(this.completedEvents);
+        if (this.completedEvents.size === this.events.length) this.removeEventListeners(this.events);
+        callbackResult = completedEvents;
+        break;
+      case Modes.WAITONCE:
+        if (allEventsCompleted) {
+          this.removeEventListeners(this.completedEvents);
+          callbackResult = completedEvents;
         }
-        this.isComplete()
+        break;
+      case Modes.WAITON:
+        if (allEventsCompleted) {
+          callbackResult = completedEvents;
+          this.completedEvents.clear();
+        }
+        break;
+      default:
+        callbackResult = completedEvents;
+        this.completedEvents.clear();
+        break;
     }
 
-    isComplete() {
-        if (!this.always && this.events.length === this.completedEvents.length) {
-            const completedEvents = this.completedEvents.length > 1 ? this.completedEvents : this.completedEvents[0]
-            this.events.map(event => document.removeEventListener(event, this.onEvent.bind(this)))
-            this.callback(completedEvents)
-        }
-        if (this.always) {
-            const completedEvent = this.completedEvents.length > 1 ? this.completedEvents[this.completedEvents.length - 1] : this.completedEvents[0]
-            this.callback(completedEvent)
-        }
-    }
-}
+    if (callbackResult) this.callback(callbackResult);
+  }
 
-const createEventGroup = function (events, callback, always) {
-    const groupContainer = {}
-    events = Array.isArray(events) ? events : [events]
-    groupContainer.eventGroup = new EventGroup(events, always, function (completedEvents) {
-        callback(completedEvents)
-        delete groupContainer.eventGroup
-    })
-}
+  off(events = []) {
+    const offEvents = events.length ? events : this.events;
+    this.removeEventListeners(offEvents);
+    this.events = this.events.filter((event) => !offEvents.includes(event));
+  }
+};
+
+const makeSubscriber = function (events, mode, callback) {
+  const gc = {};
+  events = Array.isArray(events) ? events : [events];
+  gc.subscriber = new Subscriber(events, mode, (completedEvents) => {
+    callback(completedEvents);
+    delete gc.subscriber;
+  });
+  return gc.subscriber;
+};
 
 export default {
-    once: (events, callback) => createEventGroup(events, callback, false),
-    on: (events, callback) => createEventGroup(events, callback, true),
-    dispatch: (event, data) => document.dispatchEvent(new CustomEvent(event, {detail: data}))
-}
+  dispatch: (event, data) => document.dispatchEvent(new CustomEvent(event, { detail: data })),
+  on: (events, callback) => makeSubscriber(events, Modes.ON, callback),
+  once: (events, callback) => makeSubscriber(events, Modes.ONCE, callback),
+  waitOn: (events, callback) => makeSubscriber(events, Modes.WAITON, callback),
+  waitOnce: (events, callback) => makeSubscriber(events, Modes.WAITONCE, callback),
+};

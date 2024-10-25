@@ -1,6 +1,6 @@
 {
   "name": "zermatt-core",
-  "version": "1.0.7",
+  "version": "1.1.0",
   "description": "JS lib + utils for Zermatt.JS lib + utils for Zermatt.",
   "main": "index.js",
   "scripts": {
