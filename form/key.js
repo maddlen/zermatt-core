@@ -1,5 +1,5 @@
-import Event from 'zermatt-core/event'
-import { pageHasModule } from 'zermatt-core/module'
+import Event from '../event'
+import { pageHasModule } from '../module'
 
 /**
  * @author Hervé Guétin <www.linkedin.com/in/herveguetin>

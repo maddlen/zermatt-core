@@ -1,7 +1,6 @@
 /**
  * @author Hervé Guétin <www.linkedin.com/in/herveguetin>
  */
-import Alpine from 'alpinejs'
 import Event from './../event'
 
 let zermattConfig = {}
