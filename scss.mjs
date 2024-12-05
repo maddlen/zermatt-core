@@ -24,7 +24,7 @@ const scssFiles = Object.values(inheritanceFiles)
 
 async function createZermattLock (files) {
     const outputPath = path.join(process.cwd(), 'dist/zermatt-lock.scss')
-    let scssContent = ''
+    let scssContent = files.length ? '' : '.fake-class-to-avoid-issues {display: none}\n'
 
     files.forEach(file => {
         const formattedFilePath = path.normalize(file).replace(/\\/g, '/') // Normalize file path
@@ -51,6 +51,6 @@ function buildObjectFromPaths (paths) {
     }, {})
 }
 
-export default async function zermattLock () {
-    return await createZermattLock(scssFiles)
+export default async function zermattLock (files = null) {
+    return await createZermattLock(files || scssFiles);
 }
