@@ -1,17 +1,14 @@
 import path from 'path'
 import fsp from 'fs/promises'
-import * as glob from 'glob'
-import { fileURLToPath } from 'url'
 import { blue } from 'colorette'
+import { DirTypes, files} from './paths.mjs'
 
-const CWD = path.dirname(fileURLToPath(import.meta.url))
-const ROOT = path.resolve(CWD, '../../../../.../../../../.../../../../../')
-const THEME = path.resolve(CWD, '../../')
+const PATTERN = '/**/*.scss'
 
 const sourceFiles = {
-    vendor: buildObjectFromPaths([...glob.sync(path.resolve(ROOT + '/vendor/*/*/view/frontend/web/zermatt/**/*.scss'))]),
-    app: buildObjectFromPaths([...glob.sync(path.resolve(ROOT + '/app/code/*/*/view/frontend/web/zermatt/**/*.scss'))]),
-    theme: buildObjectFromPaths([...glob.sync(path.resolve(THEME + '/**/*.scss'))])
+    vendor: buildObjectFromPaths(files(DirTypes.Vendor, PATTERN)),
+    app: buildObjectFromPaths(files(DirTypes.App, PATTERN)),
+    theme: buildObjectFromPaths(files(DirTypes.Theme, PATTERN)),
 }
 
 const inheritanceFiles = Object.values(sourceFiles).reduce((acc, curr) => {
@@ -35,7 +32,7 @@ async function createZermattLock (files) {
         const dir = path.dirname(outputPath)
         await fsp.mkdir(dir, { recursive: true })
         await fsp.writeFile(outputPath, scssContent, 'utf8')
-        console.log(blue('✓'), 'zermatt-lock.scss')
+        console.log(blue('✓'), 'Built zermatt-lock.scss.')
     } catch (err) {
         console.error('Error writing the zermatt-lock.scss file:', err)
     }
