@@ -29,6 +29,7 @@
     "colorette": "^2.0.20",
     "glob": "^11.0.0",
     "i18next": "^23.10.1",
+    "js-cookie": "^3.0.5",
     "laravel-precognition-alpine": "^0.5.11"
   }
 }

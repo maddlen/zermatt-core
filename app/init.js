@@ -2,7 +2,7 @@
  * @author Hervé Guétin <www.linkedin.com/in/herveguetin>
  */
 import Event from './../event'
-import FormKey from './../form/key'
+import Form from './../form'
 import Module from './../module'
 import Translation from './../string/translation'
 import Alpine from "alpinejs"
@@ -21,7 +21,7 @@ let config = {}
 const listen = function () {
     Event.waitOnce('zermatt:kickoff', () => {
         Translation.init()
-        FormKey.fetch()
+        Form.fetchKey()
     })
     Event.waitOnce('zermatt:translation:init', () => Module.init(config))
     Event.waitOnce(['zermatt:translation:init', 'zermatt:module:init'], () => {
