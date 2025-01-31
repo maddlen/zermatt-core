@@ -1,6 +1,6 @@
 {
   "name": "zermatt-core",
-  "version": "1.1.4",
+  "version": "1.1.5",
   "description": "JS lib + utils for Zermatt.JS lib + utils for Zermatt.",
   "main": "index.js",
   "scripts": {
@@ -19,7 +19,7 @@
   "bugs": {
     "url": "https://github.com/maddlen/zermatt-core/issues"
   },
-  "homepage": "https://github.com/maddlen/zermatt-core#readme",  
+  "homepage": "https://github.com/maddlen/zermatt-core#readme",
   "dependencies": {
     "@alpinejs/collapse": "^3.14.1",
     "@alpinejs/focus": "^3.14.1",
