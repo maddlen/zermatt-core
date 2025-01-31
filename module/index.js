@@ -8,7 +8,7 @@ let zermattConfig = {}
 async function rewrite(module, configModule) {
     const rewrite = zermattConfig.rewrites?.find(rewrite => rewrite.name === configModule.name)
     if (rewrite) {
-        const importRewrite = await import(Zermatt.Variables.viewUrl + rewrite.path + '.js')
+        const importRewrite = await import(/* @vite-ignore */Zermatt.Variables.viewUrl + rewrite.path + '.js')
         return {
             default: {
                 ...(module.default),
@@ -21,7 +21,7 @@ async function rewrite(module, configModule) {
 }
 
 async function loadModule(configModule) {
-    let module = await import(Zermatt.Variables.viewUrl + configModule.path + '.js')
+    let module = await import(/* @vite-ignore */Zermatt.Variables.viewUrl + configModule.path + '.js')
     module = await rewrite(module, configModule)
     Zermatt._modules[configModule.name] = module
 }
